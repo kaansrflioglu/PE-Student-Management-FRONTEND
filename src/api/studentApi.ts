@@ -1,23 +1,10 @@
 import axios from "axios";
+import type { Student } from "../types/student";
 
-const API_BASE = "http://localhost:8080/api";
+const API_URL = "http://localhost:8080/api/students";
 
-const axiosInstance = axios.create({
-    baseURL: API_BASE,
-});
-
-axiosInstance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("token");
-    if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-});
-
-export const getStudents = () => axiosInstance.get("/students");
-
-export const createStudent = (student: { name: string; age: number }) =>
-  axiosInstance.post("/students", student);
-
-export const deleteStudent = (id: string) =>
-  axiosInstance.delete(`/students/${id}`);
+export const getStudents = (token: string) => {
+  return axios.get<Student[]>(API_URL, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

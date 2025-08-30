@@ -1,24 +1,34 @@
 import React, { useEffect, useState } from "react";
 import StudentList from "../components/StudentList";
+import { useNavigate } from "react-router-dom";
 import type { Student } from "../types/student";
+import { useAuth } from "../contexts/AuthContext";
 import { getStudents } from "../api/studentApi";
 
 const StudentsPage: React.FC = () => {
+  const { token } = useAuth();
+  const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
-  const [error, setError] = useState<string | null>(null);
+
+  if (!token) {
+    console.warn("Auth yapılmamış, yönlendiriliyor...");
+    navigate("/login");
+    return null;
+  }
 
   useEffect(() => {
-    getStudents()
-      .then((res) => setStudents(res.data))
-      .catch((err) => {
-        console.error("Error fetching students:", err);
-        setError("Failed to load students. Make sure you are logged in.");
-      });
-  }, []);
+    const fetchStudents = async () => {
+      try {
+        const res = await getStudents(token);
+        setStudents(res.data);
+      } catch (err) {
+        console.warn("ADMIN rolünde bir kullanıcı ile giriş yapınız.");
+        navigate("/login");
+      }
+    };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    fetchStudents();
+  }, [token, navigate]);
 
   return (
     <div>
