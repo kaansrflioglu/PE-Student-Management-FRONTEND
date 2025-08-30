@@ -25,11 +25,13 @@ const StudentsPage: React.FC = () => {
   }, [token, navigate]);
 
   return (
-    <div>
-      <h1>Students</h1>
+    <div className="container py-4">
+      <h1 className="mb-4">Students</h1>
       <StudentList students={students} />
     </div>
   );
+
+
 };
 
 export default StudentsPage;
