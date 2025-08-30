@@ -16,7 +16,7 @@ const LoginPage = () => {
         setError(null);
         try {
             const response = await login({ username, password });
-            loginContext(response.token);
+            loginContext(response.token, response.role);
             navigate("/students");
         } catch (err: any) {
             setError(err.response?.data || "Login failed");

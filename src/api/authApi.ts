@@ -9,12 +9,15 @@ export interface LoginRequest {
 
 export interface LoginResponse {
     token: string;
+    role: string;
 }
 
 export const login = async (data: LoginRequest): Promise<LoginResponse> => {
     const response = await axios.post(`${API_URL}/login`, data);
-    return { token: response.data };
+    const { token, role } = response.data;
+    return { token, role };
 };
+
 
 export const register = async (data: LoginRequest): Promise<string> => {
     const response = await axios.post(`${API_URL}/register`, data);
