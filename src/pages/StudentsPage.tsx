@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import StudentList from "../components/StudentList";
 import type { Student } from "../types/student";
+import { getStudents } from "../api/studentApi";
 
 const StudentsPage: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    axios
-      .get<Student[]>("http://localhost:8080/api/students")
+    getStudents()
       .then((res) => setStudents(res.data))
-      .catch((err) => console.error("Error fetching students:", err));
+      .catch((err) => {
+        console.error("Error fetching students:", err);
+        setError("Failed to load students. Make sure you are logged in.");
+      });
   }, []);
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>

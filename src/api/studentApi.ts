@@ -2,10 +2,22 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:8080/api";
 
-export const getStudents = () => axios.get(`${API_BASE}/students`);
+const axiosInstance = axios.create({
+    baseURL: API_BASE,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+    const token = localStorage.getItem("token");
+    if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+export const getStudents = () => axiosInstance.get("/students");
 
 export const createStudent = (student: { name: string; age: number }) =>
-  axios.post(`${API_BASE}/students`, student);
+  axiosInstance.post("/students", student);
 
 export const deleteStudent = (id: string) =>
-  axios.delete(`${API_BASE}/students/${id}`);
+  axiosInstance.delete(`/students/${id}`);
