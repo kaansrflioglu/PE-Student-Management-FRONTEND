@@ -61,6 +61,8 @@ const StudentDetailPage: React.FC = () => {
     }
 
     const handleSave = async () => {
+        if (!window.confirm("Öğrenci bilgilerini güncellemek istediğinize emin misiniz?")) return;
+
         try {
             await updateStudent(student.id, formData, token!);
             setStudent(formData);
@@ -71,6 +73,21 @@ const StudentDetailPage: React.FC = () => {
         }
     };
 
+
+    const handleDelete = async () => {
+        if (!window.confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) return;
+
+        try {
+            await axios.delete(`/api/students/${student?.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            alert("Öğrenci başarıyla silindi");
+            navigate("/students");
+        } catch (err) {
+            console.error(err);
+            alert("Öğrenci silinirken hata oluştu");
+        }
+    };
     return (
         <div className="container py-4">
             <StudentHeader student={student} formData={formData} />
@@ -89,19 +106,17 @@ const StudentDetailPage: React.FC = () => {
                 setFormData={setFormData}
                 allSports={allSports}
             />
-            <ParentsSection
-                student={student}
-                formData={formData}
-                editSection={editSection}
-                setEditSection={setEditSection}
-                setFormData={setFormData}
-            />
+            <ParentsSection student={student} />
 
             <div className="text-end">
-                <button className="btn btn-success mt-3" onClick={handleSave}>
+                <button className="btn btn-success mt-3 me-2" onClick={handleSave}>
                     Kaydet
                 </button>
+                <button className="btn btn-danger mt-3" onClick={handleDelete}>
+                    Sil
+                </button>
             </div>
+
         </div>
     );
 };

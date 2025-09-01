@@ -27,8 +27,8 @@ const StudentHeader: React.FC<Props> = ({ student, formData }) => {
             </h2>
             <p className="card-text">
               <span
-                className="badge bg-primary"
-                style={{ fontSize: "1rem", padding: "0.5rem 0.75rem" }}
+                className="badge bg-primary p-2"
+                style={{ fontSize: "1rem", padding: "0.5rem 0.75rem", borderRadius: "0.2rem" }}
               >
                 {formData.gradeLevel}
                 {formData.gradeSection} Sınıfı

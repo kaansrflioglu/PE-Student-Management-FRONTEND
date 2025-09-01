@@ -12,9 +12,9 @@ interface Props {
 const fields = [
   { label: "Boy", key: "height", unit: "cm" },
   { label: "Kilo", key: "weight", unit: "kg" },
-  { label: "Koşu", key: "pace" },
-  { label: "Esneklik", key: "flexibility" },
-  { label: "Sıçrama", key: "leap" },
+  { label: "Koşu", key: "pace", unit: "saniye"  },
+  { label: "Esneklik", key: "flexibility", unit: "cm"  },
+  { label: "Sıçrama", key: "leap", unit: "cm"  },
   { label: "Kol Gücü", key: "armStrength" },
   { label: "Bacak Gücü", key: "legStrength" },
   { label: "Kas Yapısı", key: "muscleAnatomy" },
