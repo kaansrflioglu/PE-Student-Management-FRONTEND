@@ -5,6 +5,8 @@ import StudentsPage from "./pages/StudentsPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import MainLayout from "./pages/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ParentsPage from "./pages/ParentsPage";
+import ParentDetailPage from "./pages/ParentDetailPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route element={<MainLayout />}>
             <Route path="/students" element={<StudentsPage />} />
             <Route path="/students/:id" element={<StudentDetailPage />} />
+            <Route path="/parents" element={<ParentsPage />} />
+            <Route path="/parents/:id" element={<ParentDetailPage />} />
           </Route>
         </Route>
       </Routes>
