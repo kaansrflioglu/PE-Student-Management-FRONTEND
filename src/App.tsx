@@ -3,6 +3,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import StudentsPage from "./pages/StudentsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import StudentDetailPage from "./pages/StudentDetailPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/students" element={<StudentsPage />} />
+            <Route path="/students/:id" element={<StudentDetailPage />} />
           </Route>
         </Routes>
       </Router>

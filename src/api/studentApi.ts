@@ -8,3 +8,9 @@ export const getStudents = (token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const getStudentById = (id: string, token: string) => {
+  return axios.get<Student>(`${API_URL}/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

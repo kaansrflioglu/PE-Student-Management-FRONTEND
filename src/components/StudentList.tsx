@@ -1,13 +1,15 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import type { Student } from "../types/student";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   students: Student[];
-  onEdit?: (student: Student) => void;
 }
 
-const StudentList: React.FC<Props> = ({ students, onEdit }) => {
+const StudentList: React.FC<Props> = ({ students }) => {
+  const navigate = useNavigate();
+
   if (students.length === 0) {
     return <p className="text-center">No students available.</p>;
   }
@@ -31,10 +33,13 @@ const StudentList: React.FC<Props> = ({ students, onEdit }) => {
                 />
               )}
               <div>
-                <h5 className="card-title mb-1">{s.name} {s.surname}</h5>
+                <h5 className="card-title mb-1">
+                  {s.name} {s.surname}
+                </h5>
                 {s.gradeLevel && s.gradeSection && (
                   <p className="card-text mb-0">
-                    <strong>Sınıf:</strong> {s.gradeLevel}{s.gradeSection}
+                    <strong>Sınıf:</strong> {s.gradeLevel}
+                    {s.gradeSection}
                   </p>
                 )}
               </div>
@@ -47,7 +52,7 @@ const StudentList: React.FC<Props> = ({ students, onEdit }) => {
                 cursor: "pointer",
                 color: "#0d6efd",
               }}
-              onClick={() => onEdit && onEdit(s)}
+              onClick={() => navigate(`/students/${s.id}`)}
             />
           </div>
         </div>

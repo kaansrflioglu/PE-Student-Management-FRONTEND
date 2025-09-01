@@ -6,7 +6,7 @@ const ProtectedRoute = () => {
 
   if (loading) return null;
 
-  if (!token || !role || role.trim().toUpperCase() !== "ADMIN") {
+  if (!token) {
     console.log("Redirecting to login. Role:", role);
     return <Navigate to="/login" replace />;
   }
