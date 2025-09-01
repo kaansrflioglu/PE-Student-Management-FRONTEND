@@ -21,10 +21,10 @@ const ParentsPage = () => {
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
-        <div className="col-lg-8 col-md-10">
+        <div className="col">
           <div className="card shadow border-0">
-            <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-              <h5 className="mb-0">Parent Listesi</h5>
+            <div className="card-header bg-success text-white d-flex justify-content-between align-items-center">
+              <h5 className="mb-0">Veli Listesi</h5>
               <span className="badge bg-light text-dark">{parents.length} kişi</span>
             </div>
             <div className="card-body p-0">

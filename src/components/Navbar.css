@@ -24,6 +24,7 @@
 }
 
 .nav-link.logout-link {
+  display: inline-block;
   color: #dc3545;
   font-weight: 500;
   cursor: pointer;
@@ -49,6 +50,4 @@
 
 .nav-link.logout-link:hover::after {
   width: 80%;
-  left: 50%;
-  transform: translateX(-50%);
 }

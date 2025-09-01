@@ -1,6 +1,7 @@
 import React from "react";
 import type { Student } from "../../types/student";
 import type { Sports } from "../../types/sports";
+import { FaEdit } from "react-icons/fa";
 
 interface Props {
   student: Student;
@@ -36,21 +37,19 @@ const SportsSection: React.FC<Props> = ({
     <div className="card shadow-sm mb-4">
       <div className="card-header bg-light d-flex justify-content-between">
         <h4 className="mb-0">Sporlar</h4>
-        {editSection === "sports" ? (
-          <button
-            className="btn btn-sm btn-secondary"
-            onClick={() => setEditSection(null)}
-          >
-            İptal
-          </button>
-        ) : (
-          <button
-            className="btn btn-sm btn-primary"
-            onClick={() => setEditSection("sports")}
-          >
-            Düzenle
-          </button>
-        )}
+
+        <FaEdit
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+            color: "#0d6efd",
+          }}
+          size={18}
+          onClick={() => setEditSection("sports")}
+        />
+
       </div>
 
       <div className="card-body">

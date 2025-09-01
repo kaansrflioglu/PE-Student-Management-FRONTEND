@@ -1,5 +1,6 @@
 import React from "react";
 import type { Parent } from "../../types/parent";
+import { FaEdit } from "react-icons/fa";
 
 interface Props {
   parent: Parent;
@@ -22,99 +23,60 @@ const ParentHeader: React.FC<Props> = ({
     <div className="card shadow-sm mb-4">
       <div className="card-header d-flex justify-content-between bg-light">
         <h4 className="mb-0">Veli Bilgileri</h4>
-        {isEditing ? (
-          <button
-            className="btn btn-sm btn-secondary"
-            onClick={() => setEditSection(null)}
-          >
-            İptal
-          </button>
-        ) : (
-          <button
-            className="btn btn-sm btn-primary"
-            onClick={() => setEditSection("info")}
-          >
-            Düzenle
-          </button>
-        )}
+
+        <FaEdit
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+            color: "#0d6efd",
+          }}
+          size={18}
+          onClick={() => setEditSection("info")}
+        />
+
       </div>
-      <div className="card-body">
-        <div className="mb-2">
-          <strong>İsim:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              className="form-control d-inline-block w-auto ms-2"
-              value={formData.name || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-            />
-          ) : (
-            parent.name || "-"
-          )}
-        </div>
-        <div className="mb-2">
-          <strong>Soyisim:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              className="form-control d-inline-block w-auto ms-2"
-              value={formData.surname || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, surname: e.target.value })
-              }
-            />
-          ) : (
-            parent.surname || "-"
-          )}
-        </div>
-        <div className="mb-2">
-          <strong>Yakınlık:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              className="form-control d-inline-block w-auto ms-2"
-              value={formData.relation || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, relation: e.target.value })
-              }
-            />
-          ) : (
-            parent.relation || "-"
-          )}
-        </div>
-        <div className="mt-2">
-          <strong>Telefon:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="text"
-              className="form-control d-inline-block w-auto ms-2"
-              value={formData.phone || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
-            />
-          ) : (
-            parent.phone || "-"
-          )}
-        </div>
-        <div className="mt-2">
-          <strong>Boy:</strong>{" "}
-          {isEditing ? (
-            <input
-              type="number"
-              className="form-control d-inline-block w-auto ms-2"
-              value={formData.height || ""}
-              onChange={(e) =>
-                setFormData({ ...formData, height: parseFloat(e.target.value) })
-              }
-            />
-          ) : (
-            parent.height ? `${parent.height} cm` : "-"
-          )}
-        </div>
+      <div className="card-body p-0">
+        <ul className="list-group list-group-flush">
+          {[
+            { key: "name", label: "İsim" },
+            { key: "surname", label: "Soyisim" },
+            { key: "relation", label: "Yakınlık" },
+            { key: "phone", label: "Telefon" },
+            { key: "height", label: "Boy", unit: "cm", type: "number" },
+          ].map((field) => (
+            <li key={field.key} className="list-group-item">
+              <strong>{field.label}:</strong>{" "}
+              {isEditing ? (
+                <input
+                  type={field.type || "text"}
+                  className="form-control d-inline-block w-auto ms-2"
+                  value={(formData as any)[field.key] || ""}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      [field.key]:
+                        field.type === "number"
+                          ? parseFloat(e.target.value)
+                          : e.target.value,
+                    })
+                  }
+                />
+              ) : (
+                <>
+                  {(parent as any)[field.key]
+                    ? field.unit
+                      ? `${(parent as any)[field.key]} ${field.unit}`
+                      : (parent as any)[field.key]
+                    : "-"}
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
+
     </div>
   );
 };

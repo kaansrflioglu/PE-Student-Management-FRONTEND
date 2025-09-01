@@ -1,5 +1,6 @@
 import React from "react";
 import type { Student } from "../../types/student";
+import { FaEdit } from "react-icons/fa";
 
 interface Props {
   student: Student;
@@ -12,9 +13,9 @@ interface Props {
 const fields = [
   { label: "Boy", key: "height", unit: "cm" },
   { label: "Kilo", key: "weight", unit: "kg" },
-  { label: "Koşu", key: "pace", unit: "saniye"  },
-  { label: "Esneklik", key: "flexibility", unit: "cm"  },
-  { label: "Sıçrama", key: "leap", unit: "cm"  },
+  { label: "Koşu", key: "pace", unit: "saniye" },
+  { label: "Esneklik", key: "flexibility", unit: "cm" },
+  { label: "Sıçrama", key: "leap", unit: "cm" },
   { label: "Kol Gücü", key: "armStrength" },
   { label: "Bacak Gücü", key: "legStrength" },
   { label: "Kas Yapısı", key: "muscleAnatomy" },
@@ -31,21 +32,19 @@ const PhysicalAttributes: React.FC<Props> = ({
     <div className="card shadow-sm mb-4">
       <div className="card-header bg-light d-flex justify-content-between">
         <h4 className="mb-0">Fiziksel Özellikler</h4>
-        {editSection === "physical" ? (
-          <button
-            className="btn btn-sm btn-secondary"
-            onClick={() => setEditSection(null)}
-          >
-            İptal
-          </button>
-        ) : (
-          <button
-            className="btn btn-sm btn-primary"
-            onClick={() => setEditSection("physical")}
-          >
-            Düzenle
-          </button>
-        )}
+
+        <FaEdit
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+            color: "#0d6efd",
+          }}
+          size={18}
+          onClick={() => setEditSection("physical")}
+        />
+
       </div>
       <ul className="list-group list-group-flush">
         {fields.map((field) => (
