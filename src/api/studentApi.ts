@@ -14,3 +14,9 @@ export const getStudentById = (id: string, token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const updateStudent = (id: string, student: Student, token: string) => {
+  return axios.put<Student>(`${API_URL}/${id}`, student, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
