@@ -26,7 +26,6 @@ const StudentsPage: React.FC = () => {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4">Students</h1>
       <StudentList students={students} />
     </div>
   );
