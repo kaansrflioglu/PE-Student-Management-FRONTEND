@@ -60,7 +60,7 @@ const ParentsPage = () => {
                 </ul>
               ) : (
                 <div className="p-4 text-center text-muted">
-                  Hiç parent bulunamadı.
+                  Hiç veli bulunamadı.
                 </div>
               )}
             </div>
