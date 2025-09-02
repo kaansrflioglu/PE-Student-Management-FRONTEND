@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import type { Student } from "../../types/student";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   parentId: string;
+  removedStudents: string[];
+  onRemoveParent: (studentId: string) => void;
 }
 
-const StudentsSection: React.FC<Props> = ({ parentId }) => {
+const StudentsSection: React.FC<Props> = ({ parentId, removedStudents, onRemoveParent }) => {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [students, setStudents] = useState<Student[]>([]);
@@ -17,6 +19,7 @@ const StudentsSection: React.FC<Props> = ({ parentId }) => {
 
   useEffect(() => {
     const fetchStudents = async () => {
+      setLoading(true);
       try {
         const res = await axios.get(`/api/parents/${parentId}/students`, {
           headers: { Authorization: `Bearer ${token}` },
@@ -30,11 +33,13 @@ const StudentsSection: React.FC<Props> = ({ parentId }) => {
         setLoading(false);
       }
     };
-
     if (parentId) fetchStudents();
   }, [parentId, token]);
 
-  
+  const handleMarkRemove = (student: Student) => {
+    onRemoveParent(student.id);
+  };
+
   return (
     <div className="card shadow-sm mb-4">
       <div className="card-header bg-light d-flex justify-content-between align-items-center">
@@ -48,53 +53,93 @@ const StudentsSection: React.FC<Props> = ({ parentId }) => {
           <div className="p-4 text-center text-muted">Bu veliye ait öğrenci bulunmuyor.</div>
         ) : (
           <ul className="list-group list-group-flush">
-            {students.map((s) => (
-                
-              <li
-                key={s.id}
-                className="list-group-item d-flex align-items-center position-relative"
-              >
-                {s.picture ? (
-                  <img
-                    src={s.picture}
-                    alt={`${s.name} ${s.surname}`}
-                    className="rounded-circle border me-3"
-                    style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
-                    style={{ width: "50px", height: "50px" }}
-                  >
-                    <i className="bi bi-person-circle fs-5"></i>
-                  </div>
-                )}
-
-                <div>
-                  <strong>
-                    {s.name} {s.surname}
-                  </strong>
-                  {s.gradeLevel && s.gradeSection && (
-                    <div className="text-muted small">
-                      Sınıf: {s.gradeLevel}
-                      {s.gradeSection}
+            {students.map((s) => {
+              const isRemoved = removedStudents.includes(s.id);
+              return (
+                <li
+                  key={s.id}
+                  className="list-group-item d-flex align-items-center position-relative"
+                  style={{
+                    opacity: isRemoved ? 0.5 : 1,
+                  }}
+                >
+                  {s.picture ? (
+                    <img
+                      src={s.picture}
+                      alt={`${s.name} ${s.surname}`}
+                      className="rounded-circle border me-3"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        filter: isRemoved ? "grayscale(100%)" : "none",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        filter: isRemoved ? "grayscale(100%)" : "none",
+                      }}
+                    >
+                      <i className="bi bi-person-circle fs-5"></i>
                     </div>
                   )}
-                </div>
 
-                <FaEdit
-                  style={{
-                    position: "absolute",
-                    top: "12px",
-                    right: "12px",
-                    cursor: "pointer",
-                    color: "#0d6efd",
-                  }}
-                  size={18}
-                  onClick={() => navigate(`/students/${s.id}`)}
-                />
-              </li>
-            ))}
+                  <div>
+                    <strong
+                      style={{
+                        textDecoration: isRemoved ? "line-through" : "none",
+                        color: isRemoved ? "gray" : "inherit",
+                      }}
+                    >
+                      {s.name} {s.surname}
+                    </strong>
+                    {s.gradeLevel && s.gradeSection && (
+                      <div
+                        className="text-muted small"
+                        style={{
+                          textDecoration: isRemoved ? "line-through" : "none",
+                        }}
+                      >
+                        Sınıf: {s.gradeLevel}
+                        {s.gradeSection}
+                      </div>
+                    )}
+                  </div>
+
+                  {s.parents?.some((p) => p.id === parentId) && !isRemoved && (
+                    <FaTrash
+                      style={{
+                        position: "absolute",
+                        top: "12px",
+                        right: "40px",
+                        cursor: "pointer",
+                        color: "red",
+                      }}
+                      size={18}
+                      onClick={() => handleMarkRemove(s)}
+                    />
+                  )}
+
+                  {!isRemoved && (
+                    <FaEdit
+                      style={{
+                        position: "absolute",
+                        top: "12px",
+                        right: "12px",
+                        cursor: "pointer",
+                        color: "#0d6efd",
+                      }}
+                      size={18}
+                      onClick={() => navigate(`/students/${s.id}`)}
+                    />
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

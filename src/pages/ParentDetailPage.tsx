@@ -19,6 +19,7 @@ const ParentDetailPage: React.FC = () => {
   const [formData, setFormData] = useState<Parent | null>(null);
   const [editSection, setEditSection] = useState<string | null>(null);
   const [allSports, setAllSports] = useState<Sports[]>([]);
+  const [removedStudentIds, setRemovedStudentIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (!id) return;
@@ -58,9 +59,19 @@ const ParentDetailPage: React.FC = () => {
       await axios.put(`/api/parents/${parent.id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+
+      for (const studentId of removedStudentIds) {
+        await axios.delete(`/api/students/${studentId}/parents/${parent.id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
       setParent(formData);
+      setRemovedStudentIds([]);
       setEditSection(null);
       alert("Bilgiler başarıyla güncellendi");
+
+      window.location.reload();
     } catch {
       alert("Güncelleme sırasında hata oluştu");
     }
@@ -77,6 +88,10 @@ const ParentDetailPage: React.FC = () => {
     } catch {
       alert("Veli silinirken hata oluştu");
     }
+  };
+
+  const handleRemoveStudentParent = (studentId: string) => {
+    setRemovedStudentIds(prev => [...prev, studentId]);
   };
 
   return (
@@ -96,7 +111,11 @@ const ParentDetailPage: React.FC = () => {
         setFormData={setFormData}
         allSports={allSports}
       />
-      <StudentsSection parentId={parent.id} />
+      <StudentsSection
+        parentId={parent.id}
+        removedStudents={removedStudentIds}
+        onRemoveParent={handleRemoveStudentParent}
+      />
       <div className="text-end">
         <button className="btn btn-success me-2 mt-3" onClick={handleSave}>
           Kaydet
