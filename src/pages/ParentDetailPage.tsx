@@ -8,6 +8,7 @@ import axios from "axios";
 
 import ParentHeader from "../components/parent-detail/ParentHeader";
 import SportsSection from "../components/parent-detail/SportsSection";
+import StudentsSection from "../components/parent-detail/StudentsSection";
 
 const ParentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -95,6 +96,7 @@ const ParentDetailPage: React.FC = () => {
         setFormData={setFormData}
         allSports={allSports}
       />
+      <StudentsSection parentId={parent.id} />
       <div className="text-end">
         <button className="btn btn-success me-2 mt-3" onClick={handleSave}>
           Kaydet
