@@ -4,8 +4,18 @@ import { useAuth } from "../contexts/AuthContext";
 import MainLayout from "./MainLayout";
 
 const AuthCheckPage: React.FC = () => {
-  const { token } = useAuth();
+  const { token, loading } = useAuth();
   const navigate = useNavigate();
+
+  if (loading) {
+    return (
+      <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Yükleniyor...</span>
+        </div>
+      </div>
+    );
+  }
 
   if (token) {
     return (
