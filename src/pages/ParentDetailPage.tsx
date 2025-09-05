@@ -55,6 +55,7 @@ const ParentDetailPage: React.FC = () => {
 
   const handleSave = async () => {
     if (!window.confirm("Veli bilgilerini güncellemek istediğinize emin misiniz?")) return;
+
     try {
       await axios.put(`/api/parents/${parent.id}`, formData, {
         headers: { Authorization: `Bearer ${token}` },
@@ -72,21 +73,38 @@ const ParentDetailPage: React.FC = () => {
       alert("Bilgiler başarıyla güncellendi");
 
       window.location.reload();
-    } catch {
-      alert("Güncelleme sırasında hata oluştu");
+    } catch (err: any) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 403) {
+          alert("Bu işlemi yapma yetkiniz yok");
+        } else {
+          alert("Güncelleme sırasında hata oluştu");
+        }
+      } else {
+        alert("Beklenmeyen bir hata oluştu");
+      }
     }
   };
 
   const handleDelete = async () => {
     if (!window.confirm("Bu veliyi silmek istediğinize emin misiniz?")) return;
+
     try {
       await axios.delete(`/api/parents/${parent.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert("Veli başarıyla silindi");
       navigate("/parents");
-    } catch {
-      alert("Veli silinirken hata oluştu");
+    } catch (err: any) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status === 403) {
+          alert("Bu işlemi yapma yetkiniz yok");
+        } else {
+          alert("Veli silinirken hata oluştu");
+        }
+      } else {
+        alert("Beklenmeyen bir hata oluştu");
+      }
     }
   };
 

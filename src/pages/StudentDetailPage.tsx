@@ -68,11 +68,18 @@ const StudentDetailPage: React.FC = () => {
             setStudent(formData);
             setEditSection(null);
             alert("Bilgiler başarıyla güncellendi");
-        } catch {
-            alert("Güncelleme sırasında hata oluştu");
+        } catch (err: any) {
+            if (axios.isAxiosError(err)) {
+                if (err.response?.status === 403) {
+                    alert("Bu işlemi yapma yetkiniz yok");
+                } else {
+                    alert("Güncelleme sırasında hata oluştu");
+                }
+            } else {
+                alert("Beklenmeyen bir hata oluştu");
+            }
         }
     };
-
 
     const handleDelete = async () => {
         if (!window.confirm("Bu öğrenciyi silmek istediğinize emin misiniz?")) return;
@@ -83,11 +90,19 @@ const StudentDetailPage: React.FC = () => {
             });
             alert("Öğrenci başarıyla silindi");
             navigate("/students");
-        } catch (err) {
-            console.error(err);
-            alert("Öğrenci silinirken hata oluştu");
+        } catch (err: any) {
+            if (axios.isAxiosError(err)) {
+                if (err.response?.status === 403) {
+                    alert("Bu işlemi yapma yetkiniz yok");
+                } else {
+                    alert("Öğrenci silinirken hata oluştu");
+                }
+            } else {
+                alert("Beklenmeyen bir hata oluştu");
+            }
         }
     };
+
     return (
         <div className="container py-4">
             <StudentHeader
