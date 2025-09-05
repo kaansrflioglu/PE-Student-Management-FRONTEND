@@ -90,7 +90,13 @@ const StudentDetailPage: React.FC = () => {
     };
     return (
         <div className="container py-4">
-            <StudentHeader student={student} formData={formData} />
+            <StudentHeader
+                student={student}
+                formData={formData}
+                editSection={editSection}
+                setEditSection={setEditSection}
+                setFormData={setFormData}
+            />
             <PhysicalAttributes
                 student={student}
                 formData={formData}
