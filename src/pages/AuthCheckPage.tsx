@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import MainLayout from "./MainLayout";
 
 const AuthCheckPage: React.FC = () => {
-  const { token, loading } = useAuth();
+  const { token, loading, role } = useAuth();
   const navigate = useNavigate();
 
   if (loading) {
@@ -35,6 +35,15 @@ const AuthCheckPage: React.FC = () => {
             >
               Veliler
             </button>
+
+            {role === "ADMIN" && (
+              <button
+                className="list-group-item list-group-item-action"
+                onClick={() => navigate("/students/add")}
+              >
+                Yeni Öğrenci Ekle
+              </button>
+            )}
           </div>
         </div>
       </MainLayout>

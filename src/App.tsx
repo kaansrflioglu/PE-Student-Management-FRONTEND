@@ -3,6 +3,7 @@ import AuthCheckPage from "./pages/AuthCheckPage";
 import LoginPage from "./pages/LoginPage";
 import StudentsPage from "./pages/StudentsPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
+import StudentAddPage from "./pages/StudentAddPage";
 import MainLayout from "./pages/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ParentsPage from "./pages/ParentsPage";
@@ -14,12 +15,17 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthCheckPage />} />
         <Route path="/login" element={<LoginPage />} />
+
         <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
             <Route path="/students" element={<StudentsPage />} />
             <Route path="/students/:id" element={<StudentDetailPage />} />
             <Route path="/parents" element={<ParentsPage />} />
             <Route path="/parents/:id" element={<ParentDetailPage />} />
+
+            <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
+              <Route path="/students/add" element={<StudentAddPage />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
-  const { token, logout } = useAuth();
+  const { token, logout, role } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(true);
@@ -45,6 +45,7 @@ const Navbar: React.FC = () => {
                     Öğrenciler
                   </button>
                 </li>
+
                 <li className="nav-item">
                   <button
                     className={`nav-link btn btn-link ${isActive("/parents") ? "active" : ""}`}
@@ -53,8 +54,20 @@ const Navbar: React.FC = () => {
                     Veliler
                   </button>
                 </li>
+
+                {role === "ADMIN" && (
+                  <li className="nav-item">
+                    <button
+                      className={`nav-link btn btn-link ${isActive("/students/add") ? "active" : ""}`}
+                      onClick={() => navigate("/students/add")}
+                    >
+                      Öğrenci Ekle
+                    </button>
+                  </li>
+                )}
               </>
             )}
+
           </ul>
 
           {token && (
