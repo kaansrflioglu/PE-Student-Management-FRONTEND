@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useMatch } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
   const { token, logout, role } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const [collapsed, setCollapsed] = useState(true);
 
   const toggleNavbar = () => setCollapsed(!collapsed);
 
-  const isActive = (path: string) => location.pathname.startsWith(path);
+  const studentsMatch = useMatch("/students");
+  const studentsAddMatch = useMatch("/students/add");
+  const parentsMatch = useMatch("/parents");
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -33,13 +34,17 @@ const Navbar: React.FC = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className={`collapse navbar-collapse ${collapsed ? "" : "show"}`} id="navbarSupportedContent">
+        <div
+          className={`collapse navbar-collapse ${collapsed ? "" : "show"}`}
+          id="navbarSupportedContent"
+        >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             {token && (
               <>
                 <li className="nav-item">
                   <button
-                    className={`nav-link btn btn-link ${isActive("/students") ? "active" : ""}`}
+                    className={`nav-link btn btn-link ${studentsMatch && !studentsAddMatch ? "active" : ""
+                      }`}
                     onClick={() => navigate("/students")}
                   >
                     Öğrenciler
@@ -48,7 +53,8 @@ const Navbar: React.FC = () => {
 
                 <li className="nav-item">
                   <button
-                    className={`nav-link btn btn-link ${isActive("/parents") ? "active" : ""}`}
+                    className={`nav-link btn btn-link ${parentsMatch ? "active" : ""
+                      }`}
                     onClick={() => navigate("/parents")}
                   >
                     Veliler
@@ -58,7 +64,8 @@ const Navbar: React.FC = () => {
                 {role === "ADMIN" && (
                   <li className="nav-item">
                     <button
-                      className={`nav-link btn btn-link ${isActive("/students/add") ? "active" : ""}`}
+                      className={`nav-link btn btn-link ${studentsAddMatch ? "active" : ""
+                        }`}
                       onClick={() => navigate("/students/add")}
                     >
                       Öğrenci Ekle
@@ -67,7 +74,6 @@ const Navbar: React.FC = () => {
                 )}
               </>
             )}
-
           </ul>
 
           {token && (
@@ -75,6 +81,7 @@ const Navbar: React.FC = () => {
               <li className="nav-item">
                 <span
                   className="nav-link logout-link"
+                  style={{ cursor: "pointer" }}
                   onClick={() => {
                     logout?.();
                     navigate("/login");
