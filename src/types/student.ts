@@ -2,7 +2,7 @@ import type { Sports } from "./sports";
 import type { Parent } from "./parent";
 
 export interface Student {
-  id?: string;
+  id: string;
   name: string;
   surname: string;
   weight?: number;

@@ -127,7 +127,13 @@ const StudentDetailPage: React.FC = () => {
                 setFormData={setFormData}
                 allSports={allSports}
             />
-            <ParentsSection student={student} />
+            <ParentsSection
+                student={student}
+                formData={formData}
+                setFormData={setFormData}
+                editSection={editSection}
+                setEditSection={setEditSection}
+            />
 
             <div className="text-end">
                 <button className="btn btn-success mt-3 me-2" onClick={handleSave}>

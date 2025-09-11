@@ -15,6 +15,7 @@ const StudentAddPage: React.FC = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<Student>({
+        id: "",
         name: "",
         surname: "",
         gradeLevel: undefined,
