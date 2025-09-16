@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import StudentsPage from "./pages/StudentsPage";
 import StudentDetailPage from "./pages/StudentDetailPage";
 import StudentAddPage from "./pages/StudentAddPage";
+import ParentAddPage from "./pages/ParentAddPage";
 import MainLayout from "./pages/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import ParentsPage from "./pages/ParentsPage";
@@ -25,6 +26,7 @@ function App() {
 
             <Route element={<ProtectedRoute requiredRole="ADMIN" />}>
               <Route path="/students/add" element={<StudentAddPage />} />
+              <Route path="/parents/add" element={<ParentAddPage />} />
             </Route>
           </Route>
         </Route>

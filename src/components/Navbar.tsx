@@ -13,6 +13,7 @@ const Navbar: React.FC = () => {
   const studentsMatch = useMatch("/students");
   const studentsAddMatch = useMatch("/students/add");
   const parentsMatch = useMatch("/parents");
+  const parentsAddMatch = useMatch("/parents/add"); // ✅ eklendi
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -53,7 +54,7 @@ const Navbar: React.FC = () => {
 
                 <li className="nav-item">
                   <button
-                    className={`nav-link btn btn-link ${parentsMatch ? "active" : ""
+                    className={`nav-link btn btn-link ${parentsMatch && !parentsAddMatch ? "active" : ""
                       }`}
                     onClick={() => navigate("/parents")}
                   >
@@ -62,15 +63,27 @@ const Navbar: React.FC = () => {
                 </li>
 
                 {role === "ADMIN" && (
-                  <li className="nav-item">
-                    <button
-                      className={`nav-link btn btn-link ${studentsAddMatch ? "active" : ""
-                        }`}
-                      onClick={() => navigate("/students/add")}
-                    >
-                      Öğrenci Ekle
-                    </button>
-                  </li>
+                  <>
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link btn btn-link ${studentsAddMatch ? "active" : ""
+                          }`}
+                        onClick={() => navigate("/students/add")}
+                      >
+                        Öğrenci Ekle
+                      </button>
+                    </li>
+
+                    <li className="nav-item">
+                      <button
+                        className={`nav-link btn btn-link ${parentsAddMatch ? "active" : ""
+                          }`}
+                        onClick={() => navigate("/parents/add")}
+                      >
+                        Veli Ekle
+                      </button>
+                    </li>
+                  </>
                 )}
               </>
             )}

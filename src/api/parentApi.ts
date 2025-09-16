@@ -20,3 +20,9 @@ export const updateParent = (id: string, parent: Parent, token: string) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const addParent = (parent: Parent, token: string) => {
+  return axios.post<Parent>(API_URL, parent, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

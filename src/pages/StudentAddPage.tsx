@@ -90,7 +90,7 @@ const StudentAddPage: React.FC = () => {
 
 
             <div className="text-end">
-                <button className="btn btn-success mt-3" onClick={handleSave}>
+                <button className="btn btn-success" onClick={handleSave}>
                     Kaydet
                 </button>
             </div>
