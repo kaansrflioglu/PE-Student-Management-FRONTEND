@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
   const studentsMatch = useMatch("/students");
   const studentsAddMatch = useMatch("/students/add");
   const parentsMatch = useMatch("/parents");
-  const parentsAddMatch = useMatch("/parents/add"); // ✅ eklendi
+  const parentsAddMatch = useMatch("/parents/add");
 
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">

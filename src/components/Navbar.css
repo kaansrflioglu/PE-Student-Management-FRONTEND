@@ -51,3 +51,12 @@
 .nav-link.logout-link:hover::after {
   width: 80%;
 }
+
+.navbar-toggler {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.navbar-toggler-icon:hover {
+  transform: rotate(90deg);
+}
