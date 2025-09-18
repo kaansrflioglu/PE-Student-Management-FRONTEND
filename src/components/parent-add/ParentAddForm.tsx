@@ -117,7 +117,23 @@ const ParentAddForm: React.FC<Props> = ({ onSave }) => {
               type="tel"
               name="phone"
               value={formData.phone}
-              onChange={handleChange}
+              onChange={(e) => {
+                let val = e.target.value.replace(/\D/g, "");
+
+                if (val.startsWith("0")) {
+                  val = val.slice(1);
+                }
+
+                if (val.startsWith("5")) {
+                  if (val.length > 10) val = val.slice(0, 10);
+                  val = val.replace(
+                    /^(\d{3})(\d{3})(\d{2})(\d{2})$/,
+                    "$1-$2-$3-$4"
+                  );
+                }
+
+                setFormData({ ...formData, phone: val });
+              }}
               className="form-control"
             />
           </div>

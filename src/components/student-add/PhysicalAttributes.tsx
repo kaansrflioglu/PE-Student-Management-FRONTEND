@@ -24,20 +24,32 @@ const PhysicalAttributes: React.FC<Props> = ({ formData, setFormData }) => {
                 <h4 className="mb-0">Fiziksel Özellikler</h4>
             </div>
             <ul className="list-group list-group-flush">
-                {fields.map((field) => (
-                    <li key={field.key} className="list-group-item">
-                        <strong>{field.label}:</strong>{" "}
-                        <input
-                            type="text"
-                            value={(formData as any)[field.key] || ""}
-                            onChange={(e) =>
-                                setFormData({ ...formData, [field.key]: e.target.value })
-                            }
-                            className="form-control d-inline-block w-auto ms-2"
-                        />
-                        {field.unit && <span className="ms-1">{field.unit}</span>}
-                    </li>
-                ))}
+                {fields.map((field) => {
+                    const isNumberField = [
+                        "height",
+                        "weight",
+                        "pace",
+                        "leap",
+                        "armStrength",
+                        "legStrength",
+                    ].includes(field.key);
+
+                    return (
+                        <li key={field.key} className="list-group-item">
+                            <strong>{field.label}:</strong>{" "}
+                            <input
+                                type={isNumberField ? "number" : "text"}
+                                value={(formData as any)[field.key] || ""}
+                                onChange={(e) => {
+                                    const value = isNumberField ? parseFloat(e.target.value) || 0 : e.target.value;
+                                    setFormData({ ...formData, [field.key]: value });
+                                }}
+                                className="form-control d-inline-block w-auto ms-2"
+                            />
+                            {field.unit && <span className="ms-1">{field.unit}</span>}
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );
