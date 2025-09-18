@@ -64,7 +64,10 @@ const ParentsSection: React.FC<Props> = ({ formData, setFormData }) => {
       </div>
 
       {filteredParents.length > 0 ? (
-        <ul className="list-group list-group-flush">
+        <ul
+          className="list-group list-group-flush"
+          style={{ maxHeight: "300px", overflowY: "auto" }}
+        >
           {filteredParents.map((p) => (
             <li
               key={p.id}
